@@ -70,6 +70,56 @@ public class MyGraph<Ttype> {
 		return -1;
 	}
 	
+	public void addEdge(Ttype elementFrom, Ttype elementTo, float weight) throws Exception{
+		
+		if(elementFrom == null || elementTo == null || weight < 0) {
+			throw new Exception("Ievade dati nav korekti");
+		}
+		if(isEmpty()) {
+			throw new Exception("Grafs ir tukss");
+		}	
+		
+		int indexOfElementFrom = findVerticeIndex(elementFrom);
+		int indexOfElementTo = findVerticeIndex(elementTo);
+		
+		if(indexOfElementFrom == -1 || indexOfElementTo == -1) {
+			throw new Exception("Kads no elementiem grafa neeksiste");
+		}
+		if(elementFrom.equals(elementTo)) {
+			throw new Exception("Nav iespejams veidot saikni ar sevi pasu");
+		}
 	
+		MyEdgeNode tempEdgeNode = verticeNodes[indexOfElementFrom].getFirstEdgeNode();
+		//pirmais saisu bloks
+		if(tempEdgeNode == null) {
+			MyEdgeNode newEdgeNode = new MyEdgeNode(indexOfElementTo, weight);
+			verticeNodes[indexOfElementFrom].setFirstEdgeNode(newEdgeNode);
+		}
+		//kartejais saisu bloks
+		else {
+			while(tempEdgeNode.getNextEdge() != null) {
+				if(tempEdgeNode.getIndexToVertice() == indexOfElementTo && tempEdgeNode.getWeight() == weight) {
+					throw new Exception("Tada saite jau eksiste");
+				}
+				tempEdgeNode = tempEdgeNode.getNextEdge();
+			}
+			MyEdgeNode newEdgeNode = new MyEdgeNode(indexOfElementTo, weight);
+			tempEdgeNode.setNextEdge(newEdgeNode);
+			
+		}
+		
+		
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
 	
 }

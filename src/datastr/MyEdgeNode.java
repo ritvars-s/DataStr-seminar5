@@ -23,7 +23,7 @@ public class MyEdgeNode {
 
 		}
 		else {
-			this.indexToVertice = 0;
+			indexToVertice = 0;
 
 		}
 	}
