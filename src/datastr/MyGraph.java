@@ -107,19 +107,20 @@ public class MyGraph<Ttype> {
 			tempEdgeNode.setNextEdge(newEdgeNode);
 			
 		}
-		
-		
-		
-				
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	}
+	
+	public void print() throws Exception{
+		if(isEmpty()) {
+			throw new Exception("Grafs ir tukss");
+		}
+		for(int i = 0; i < howManyElements; i++) {
+			System.out.println(verticeNodes[i].getVerticeElement() + " ->");
+			MyEdgeNode currentEdgeNode = verticeNodes[i].getFirstEdgeNode();
+			while(currentEdgeNode != null) {
+				System.out.print("[" + currentEdgeNode.getIndexToVertice() + "]" + currentEdgeNode.getWeight());
+				currentEdgeNode.getNextEdge();
+			}
+		}
 	}
 	
 }
