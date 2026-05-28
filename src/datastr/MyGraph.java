@@ -1,5 +1,8 @@
 package datastr;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 public class MyGraph<Ttype> {
 
 	private MyVerticeNode<Ttype>[] verticeNodes;
@@ -129,5 +132,78 @@ public class MyGraph<Ttype> {
 		}
 		
 	}
+	
+	public String searchPath(Ttype elementFrom, Ttype elementTo) throws Exception{
+		if(isEmpty()) {
+			throw new Exception("Grafs ir tukss tadel culu nav iespejams atrast");
+		}	
+		if(elementFrom == null || elementTo == null) {
+			throw new Exception("Ievades dati nav korekti");
+		}
+		int indexOfElementFrom = findVerticeIndex(elementFrom);
+		int indexOfElementTo = findVerticeIndex(elementTo);
+		
+		if(indexOfElementFrom == -1 || indexOfElementTo == -1) {
+			throw new Exception("Kads no elementiem grafa neeksiste");
+		}
+		setVisitedFalse();
+		boolean isFound = false;
+		String result = elementFrom + "";
+		Stack<MyVerticeNode<Ttype>> stackForNodes = new Stack<MyVerticeNode<Ttype>>();
+		stackForNodes.push(verticeNodes[indexOfElementFrom]);
+		
+		do {
+			MyVerticeNode<Ttype> tempNode = stackForNodes.pop();
+			tempNode.setVisited(true);
+			if (tempNode.getVerticeElement().equals(elementTo)) {
+				
+				isFound = true;
+				result += " -> " + tempNode.getVerticeElement();
+			}
+			else {
+				
+				result += " -> " + tempNode.getVerticeElement();
+
+				ArrayList<MyVerticeNode<Ttype>> unvisitedNeighbors = getUnvisitedNeightbors(tempNode);
+				stackForNodes.addAll(unvisitedNeighbors);
+			
+			}
+		}while(!stackForNodes.isEmpty() && !isFound);
+		
+		if(!isFound) {
+			throw new Exception("Cels nav atrasts");
+		}
+		else {
+			return result;
+
+		}
+	}
+	
+	private void setVisitedFalse() {
+		for (int i = 0; i < howManyElements; i++) {
+			verticeNodes[i].setVisited(false);
+		}
+	}
+	
+	private ArrayList<MyVerticeNode<Ttype>> getUnvisitedNeightbors(MyVerticeNode<Ttype> tempNode){
+		MyEdgeNode currentEdgeNode = tempNode.getFirstEdgeNode();
+		ArrayList<MyVerticeNode<Ttype>> unvisitedNeightbors = new ArrayList<MyVerticeNode<Ttype>>(); 
+		while(currentEdgeNode != null) {
+			int indexOfNeighbor = currentEdgeNode.getIndexToVertice();
+			MyVerticeNode<Ttype> neighborNode = verticeNodes[indexOfNeighbor];
+			
+			if(!neighborNode.isVisited()) {
+				unvisitedNeightbors.add(neighborNode);
+			}
+			
+			
+			currentEdgeNode = currentEdgeNode.getNextEdge();
+		}
+		
+		return unvisitedNeightbors;
+	}
+	
+	
+	
 	
 }
